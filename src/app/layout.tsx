@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
+import db from "@/lib/supabase/db";
+import { ThemeProvider } from "@/lib/providers/next-theme-provider";
+db;
+import { DM_Sans } from "next/font/google";
+import { twMerge } from "tailwind-merge";
+import AppStateProvider from "@/lib/providers/state-provider";
+import { SupabaseUserProvider } from "@/lib/providers/supabase-user-provider";
+import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = DM_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +23,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={twMerge("bg-background", inter.className)}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          // disableTransitionOnChange
+        >
+          <AppStateProvider>
+            <SupabaseUserProvider>
+              {children}
+              <Toaster />
+            </SupabaseUserProvider>
+          </AppStateProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
