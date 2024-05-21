@@ -596,7 +596,7 @@ export default function QuillEditor({
           />
         </div>
       )}
-      <div className="flex justify-center items-center flex-col mt-2 relative">
+      <div className="flex justify-center items-center flex-col mt-2 mb-10 relative">
         {/* <div className="w-full self-center max-w-[800px] flex flex-col px-7 lg:my-8"> */}
         <div className="w-full self-center max-w-[1080px] flex flex-col px-7 lg:my-8">
           <div className="text-[80px]">
