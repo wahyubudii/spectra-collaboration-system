@@ -71,11 +71,11 @@ export default async function Sidebar({ params, className }: SidebarProps) {
             ...sharedWorkspaces,
           ].find((workspace) => workspace.id === params.workspaceId)}
         />
-        <PlanUsage
+        {/* <PlanUsage
           foldersLength={workspaceFolderData?.length || 0}
           // subscription={subscriptionData}
           subscription={null}
-        />
+        /> */}
         <NativeNavigation myWorkspaceId={params.workspaceId} />
         <ScrollArea className="overflow-scroll relative h-[450px] no-scrollbar">
           <div className="pointer-events-none w-full absolute bottom-0 h-20 bg-gradient-to-t from-background to-transparent z-40" />
