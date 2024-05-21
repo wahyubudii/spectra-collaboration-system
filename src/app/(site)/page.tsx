@@ -18,20 +18,21 @@ export default function HomePage() {
   return (
     <>
       <section>
-        <div className="overflow-hidden px-4 sm:px-6 mt-10 sm:flex sm:flex-col md:justify-center md:items-center gap-4">
+        <div className="overflow-hidden px-4 sm:px-6 mt-10 sm:flex sm:flex-col md:justify-center md:items-center">
           <TitleSection
             pill="✨ Your Workspace, Perfected"
             title="All-In-One Collaboration and Productivity Platform"
+            subheading="Discover new levels of productivity by collaborating on creative endeavors with others in real time."
           />
-          <div className="bg-white p-[2px] mt-6 rounded-xl bg-gradient-to-r from-primary to-brand-primaryBlue sm:w-[300px]">
+          {/* <div className="bg-white p-[2px] mt-6 rounded-xl bg-gradient-to-r from-primary to-brand-primaryBlue sm:w-[300px]">
             <Button
-              variant={"btn-secondary"}
+              variant={"default"}
               className="w-full rounded-[10px] p-6 text-2xl font-bold text-white"
             >
               Get Spectra Free
             </Button>
-          </div>
-          <div className="md:mt-[-90px] sm:w-full w-[750px] flex justify-center items-center mt-[40px] relative sm:ml-0 ml-[-50px]">
+          </div> */}
+          <div className="md:mt-[-120px] sm:w-full w-[750px] flex justify-center items-center mt-[40px] relative sm:ml-0 ml-[-50px]">
             <Image alt="Application Banner" src={Banner} />
             <div className="bottom-0 top-[50%] bg-gradient-to-t left-0 right-0 absolute"></div>
           </div>
@@ -90,7 +91,7 @@ export default function HomePage() {
         <TitleSection
           title="Keep track of your meetings all in one place"
           subheading="Capture your ideas, thoughts, and meeting notes in a structured and organized manner."
-          pill="Features"
+          pill="🛠️ Features"
         />
         <div className="mt-10 max-w-[450px] flex justify-center items-center relative sm:ml-0 rounded-2xl border-8 border-washed-purple-300  border-opacity-10">
           <Image src={Callendar} alt="Banner" className="rounded-2xl" />
@@ -103,7 +104,7 @@ export default function HomePage() {
             title="Trusted by all"
             subheading="Join thousands of satisfied users who rely on our platform for their 
             personal and professional productivity needs."
-            pill="Testimonials"
+            pill="💬 Testimonials"
           />
           {[...Array(2)].map((arr, index) => (
             <div
@@ -153,7 +154,7 @@ export default function HomePage() {
         <TitleSection
           title="The Perfect Plan For You"
           subheading="Experience all the benefits of our platform. Select a plan that suits your needs and take your productivity to new heights."
-          pill="Pricing"
+          pill="💵 Pricing"
         />
         <div className="flex flex-col-reverse sm:flex-row gap-4 justify-center sm:items-stretch items-center my-10 ">
           {PRICING_CARDS.map((card) => (

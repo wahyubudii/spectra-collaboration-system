@@ -39,7 +39,7 @@ export default function SelectedWorkspace({
         alt="workspace logo"
         width={26}
         height={26}
-        objectFit="cover"
+        // objectFit="cover"
       />
       <div className="flex flex-col">
         <p className="text-base font-medium w-[170px] overflow-hidden overflow-ellipsis whitespace-nowrap">

@@ -56,15 +56,8 @@ export default function BannerUploadForm({
           .from("file-banners")
           .upload(`banner-${id}`, file, { cacheControl: "5", upsert: true });
         if (error) throw new Error();
-        console.log("DATA");
-        console.log({ data });
-        console.log({ error });
         filePath = data.path;
       };
-
-      console.log({ dirType });
-      console.log({ file });
-      console.log({ filePath });
 
       if (dirType === "file") {
         if (!workspaceId || !folderId) return;
