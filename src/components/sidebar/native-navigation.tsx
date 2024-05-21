@@ -5,21 +5,20 @@ import SpectraHomeIcon from "../icons/spectraHomeIcon";
 import SpectraSettingsIcon from "../icons/spectraSettingsIcon";
 import SpectraTrashIcon from "../icons/spectraTrashIcon";
 import Settings from "../settings/settings";
+import Trash from "../trash/trash";
 
 interface NativeNavigationProps {
   myWorkspaceId: string;
   className?: string;
-  getSelectedElement?: (selection: string) => void;
 }
 
 export default function NativeNavigation({
   myWorkspaceId,
   className,
-  getSelectedElement,
 }: NativeNavigationProps) {
   return (
-    <div className={twMerge("my-2", className)}>
-      <ul className="flex flex-col gap-5">
+    <nav className={twMerge("my-2", className)}>
+      <ul className="flex flex-col gap-4">
         <li>
           <Link
             className="group/native flex items-center text-Neutrals/neutrals-7 transition-all gap-2 text-sm"
@@ -29,22 +28,21 @@ export default function NativeNavigation({
             <span>My Workspace</span>
           </Link>
         </li>
+
         <Settings>
-          <li className="group/native flex items-center text-Neutrals/neutrals-7 transition-all gap-2 text-sm cursor-pointer">
+          <li className="group/native flex items-center text-Neutrals/neutrals-7 transition-all gap-2 text-sm">
             <SpectraSettingsIcon />
             <span>Settings</span>
           </li>
         </Settings>
-        <li>
-          <Link
-            className="group/native flex items-center text-Neutrals/neutrals-7 transition-all gap-2 text-sm"
-            href={`/dashboard/${myWorkspaceId}`}
-          >
+
+        <Trash>
+          <li className="group/native flex items-center text-Neutrals/neutrals-7 transition-all gap-2 text-sm">
             <SpectraTrashIcon />
             <span>Trash</span>
-          </Link>
-        </li>
+          </li>
+        </Trash>
       </ul>
-    </div>
+    </nav>
   );
 }

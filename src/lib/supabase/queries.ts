@@ -108,7 +108,6 @@ export const getFolderDetails = async (folderId: string) => {
 
     return { data: response, error: null };
   } catch (error) {
-    console.log("🔴Error", error);
     return { data: [], error: "Error" };
   }
 };
@@ -251,6 +250,13 @@ export const removeCollaborators = async (
   });
 };
 
+export const findUser = async (userId: string) => {
+  const response = await db.query.users.findFirst({
+    where: (u, { eq }) => eq(u.id, userId),
+  });
+  return response;
+};
+
 export const createFolder = async (folder: Folder) => {
   try {
     const results = await db.insert(folders).values(folder);
@@ -319,10 +325,31 @@ export const updateWorkspace = async (
       .update(workspaces)
       .set(workspace)
       .where(eq(workspaces.id, workspaceId));
-    revalidatePath(`/dashboard/${workspaceId}`);
+    // revalidatePath(`/dashboard/${workspaceId}`);
     return { data: null, error: null };
   } catch (error) {
     console.log(error);
     return { data: null, error: null };
   }
+};
+
+export const getCollaborators = async (workspaceId: string) => {
+  const response = await db
+    .select()
+    .from(collaborators)
+    .where(eq(collaborators.workspaceId, workspaceId));
+  if (!response.length) return [];
+
+  const userInformation: Promise<User | undefined>[] = response.map(
+    async (user) => {
+      const exists = await db.query.users.findFirst({
+        where: (u, { eq }) => eq(u.id, user.userId),
+      });
+
+      return exists;
+    }
+  );
+
+  const resolveUsers = await Promise.all(userInformation);
+  return resolveUsers.filter(Boolean) as User[];
 };

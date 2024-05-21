@@ -369,7 +369,7 @@ export default function Dropdown({
               )}
               readOnly={!isEditing}
               onDoubleClick={handleDoubleClick}
-              // onBlur={handleBlur}
+              onBlur={handleBlur}
               onChange={
                 listType === "folder" ? folderTitleChange : fileTitleChange
               }

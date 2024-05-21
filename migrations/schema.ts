@@ -10,8 +10,8 @@ import {
   bigint,
   integer,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
 
+import { relations, sql } from "drizzle-orm";
 export const keyStatus = pgEnum("key_status", [
   "expired",
   "invalid",
@@ -31,9 +31,9 @@ export const keyType = pgEnum("key_type", [
   "aead-det",
   "aead-ietf",
 ]);
-export const aalLevel = pgEnum("aal_level", ["aal3", "aal2", "aal1"]);
-export const factorType = pgEnum("factor_type", ["webauthn", "totp"]);
 export const factorStatus = pgEnum("factor_status", ["verified", "unverified"]);
+export const factorType = pgEnum("factor_type", ["webauthn", "totp"]);
+export const aalLevel = pgEnum("aal_level", ["aal3", "aal2", "aal1"]);
 export const codeChallengeMethod = pgEnum("code_challenge_method", [
   "plain",
   "s256",
@@ -95,9 +95,9 @@ export const folders = pgTable("folders", {
   data: text("data"),
   inTrash: text("in_trash"),
   bannerUrl: text("banner_url"),
-  workspaceId: uuid("workspace_id").references(() => workspaces.id, {
-    onDelete: "cascade",
-  }),
+  workspaceId: uuid("workspace_id")
+    .notNull()
+    .references(() => workspaces.id, { onDelete: "cascade" }),
 });
 
 export const files = pgTable("files", {
@@ -110,51 +110,27 @@ export const files = pgTable("files", {
   data: text("data"),
   inTrash: text("in_trash"),
   bannerUrl: text("banner_url"),
-  workspaceId: uuid("workspace_id").references(() => workspaces.id, {
-    onDelete: "cascade",
-  }),
-  folderId: uuid("folder_id").references(() => folders.id, {
-    onDelete: "cascade",
-  }),
+  workspaceId: uuid("workspace_id")
+    .notNull()
+    .references(() => workspaces.id, { onDelete: "cascade" }),
+  folderId: uuid("folder_id")
+    .notNull()
+    .references(() => folders.id, { onDelete: "cascade" }),
 });
 
-export const users = pgTable(
-  "users",
-  {
-    id: uuid("id").primaryKey().notNull(),
-    fullName: text("full_name"),
-    avatarUrl: text("avatar_url"),
-    billingAddress: jsonb("billing_address"),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }),
-    paymentMethod: jsonb("payment_method"),
-    email: text("email"),
-  },
-  (table) => {
-    return {
-      usersIdFkey: foreignKey({
-        columns: [table.id],
-        foreignColumns: [table.id],
-        name: "users_id_fkey",
-      }),
-    };
-  }
-);
+export const users = pgTable("users", {
+  id: uuid("id").primaryKey().notNull(),
+  fullName: text("full_name"),
+  avatarUrl: text("avatar_url"),
+  billingAddress: jsonb("billing_address"),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }),
+  paymentMethod: jsonb("payment_method"),
+  email: text("email"),
+});
 
 export const customers = pgTable("customers", {
-  id: uuid("id")
-    .primaryKey()
-    .notNull()
-    .references(() => users.id),
+  id: uuid("id").primaryKey().notNull(),
   stripeCustomerId: text("stripe_customer_id"),
-});
-
-export const products = pgTable("products", {
-  id: text("id").primaryKey().notNull(),
-  active: boolean("active"),
-  name: text("name"),
-  description: text("description"),
-  image: text("image"),
-  metadata: jsonb("metadata"),
 });
 
 export const prices = pgTable("prices", {
@@ -169,6 +145,15 @@ export const prices = pgTable("prices", {
   interval: pricingPlanInterval("interval"),
   intervalCount: integer("interval_count"),
   trialPeriodDays: integer("trial_period_days"),
+  metadata: jsonb("metadata"),
+});
+
+export const products = pgTable("products", {
+  id: text("id").primaryKey().notNull(),
+  active: boolean("active"),
+  name: text("name"),
+  description: text("description"),
+  image: text("image"),
   metadata: jsonb("metadata"),
 });
 
@@ -218,7 +203,6 @@ export const subscriptions = pgTable("subscriptions", {
 });
 
 export const collaborators = pgTable("collaborators", {
-  id: uuid("id").defaultRandom().primaryKey().notNull(),
   workspaceId: uuid("workspace_id")
     .notNull()
     .references(() => workspaces.id, { onDelete: "cascade" }),
@@ -228,4 +212,16 @@ export const collaborators = pgTable("collaborators", {
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  id: uuid("id").defaultRandom().primaryKey().notNull(),
 });
+
+export const productsRelations = relations(products, ({ many }) => ({
+  prices: many(prices),
+}));
+
+export const pricesRelations = relations(prices, ({ one }) => ({
+  product: one(products, {
+    fields: [prices.productId],
+    references: [products.id],
+  }),
+}));

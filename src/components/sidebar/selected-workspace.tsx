@@ -32,7 +32,7 @@ export default function SelectedWorkspace({
       onClick={() => {
         if (onClick) onClick(workspace);
       }}
-      className="flex rounded-md hover:bg-muted transition-all flex-row p-2 gap-4 justify-start cursor-pointer items-center my-2"
+      className="flex rounded-md hover:bg-muted transition-all flex-row px-4 py-2 gap-4 justify-center cursor-pointer items-center my-2"
     >
       <Image
         src={workspaceLogo}
@@ -42,7 +42,7 @@ export default function SelectedWorkspace({
         objectFit="cover"
       />
       <div className="flex flex-col">
-        <p className="text-sm w-[170px] overflow-hidden overflow-ellipsis whitespace-nowrap">
+        <p className="text-base font-medium w-[170px] overflow-hidden overflow-ellipsis whitespace-nowrap">
           {workspace.title}
         </p>
       </div>

@@ -16,6 +16,7 @@ import PlanUsage from "./plan-usage";
 import NativeNavigation from "./native-navigation";
 import { ScrollArea } from "../ui/scroll-area";
 import FoldersDropdownList from "./folders-dropdown-list";
+import UserCard from "./user-card";
 
 interface SidebarProps {
   params: { workspaceId: string };
@@ -32,16 +33,17 @@ export default async function Sidebar({ params, className }: SidebarProps) {
 
   if (!user) return;
 
-  //subscr
-  const { data: subscriptionData, error: subscriptionError } =
-    await getUserSubscriptionStatus(user.id);
+  //subscription
+  // const { data: subscriptionData, error: subscriptionError } =
+  //   await getUserSubscriptionStatus(user.id);
 
   //folders
   const { data: workspaceFolderData, error: foldersError } = await getFolders(
     params.workspaceId
   );
+
   //error
-  if (subscriptionError || foldersError) redirect("/dashboard");
+  // if (subscriptionError || foldersError) redirect("/dashboard");
 
   const [privateWorkspaces, collaboratingWorkspaces, sharedWorkspaces] =
     await Promise.all([
@@ -51,7 +53,6 @@ export default async function Sidebar({ params, className }: SidebarProps) {
     ]);
 
   //get all the different workspaces private collaborating shared
-
   return (
     <aside
       className={twMerge(
@@ -72,10 +73,11 @@ export default async function Sidebar({ params, className }: SidebarProps) {
         />
         <PlanUsage
           foldersLength={workspaceFolderData?.length || 0}
-          subscription={subscriptionData}
+          // subscription={subscriptionData}
+          subscription={null}
         />
         <NativeNavigation myWorkspaceId={params.workspaceId} />
-        <ScrollArea className="overflow-scroll no-scrollbar relative h-[450px] ">
+        <ScrollArea className="overflow-scroll relative h-[450px] no-scrollbar">
           <div className="pointer-events-none w-full absolute bottom-0 h-20 bg-gradient-to-t from-background to-transparent z-40" />
           <FoldersDropdownList
             workspaceFolders={workspaceFolderData || []}
@@ -83,6 +85,8 @@ export default async function Sidebar({ params, className }: SidebarProps) {
           />
         </ScrollArea>
       </div>
+      <UserCard subscription={null} />
+      {/* <UserCard subscription={subscriptionData} /> */}
     </aside>
   );
 }

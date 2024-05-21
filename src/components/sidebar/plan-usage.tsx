@@ -30,15 +30,17 @@ export default function PlanUsage({
   }, [state, workspaceId]);
 
   return (
-    <article className="mb-4">
+    <article className="my-4">
       {subscription?.status !== "active" && (
         <div className="flex gap-2 text-muted-foreground mb-2 items-center">
           <div className="h-4 w-4">
             <SpectraDiamondIcon />
           </div>
-          <div className="flex justify-between w-full items-center">
+          <div className="flex justify-between w-full items-center text-sm">
             <div>Free Plan</div>
-            <small>{usagePercentage.toFixed(0)}% / 100%</small>
+            <small className="font-bold">
+              {usagePercentage.toFixed(0)}% / 100%
+            </small>
           </div>
         </div>
       )}

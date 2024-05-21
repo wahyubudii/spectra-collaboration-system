@@ -7,13 +7,22 @@ import { User, Workspace } from "@/lib/supabase/supabase.types";
 import { useSupabaseUser } from "@/lib/providers/supabase-user-provider";
 import { useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Briefcase, Lock, Plus, Share, UserIcon } from "lucide-react";
+import {
+  Briefcase,
+  ExternalLink,
+  Lock,
+  LogOut,
+  Plus,
+  Share,
+  UserIcon,
+} from "lucide-react";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
 import {
   addCollaborators,
   deleteWorkspace,
+  getCollaborators,
   removeCollaborators,
   updateWorkspace,
 } from "@/lib/supabase/queries";
@@ -31,6 +40,18 @@ import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Alert, AlertDescription } from "../ui/alert";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
+import SpectraProfileIcon from "../icons/spectraProfileIcon";
+import { LogoutButton } from "../global/logout-button";
+import Link from "next/link";
 
 interface SettingsFormProps {}
 
@@ -155,17 +176,17 @@ export default function SettingsForm({}: SettingsFormProps) {
     if (showingWorkspace) setWorkspaceDetails(showingWorkspace);
   }, [workspaceId, state]);
 
-  // useEffect(() => {
-  //   if (!workspaceId) return;
-  //   const fetchCollaborators = async () => {
-  //     const response = await getCollaborators(workspaceId);
-  //     if (response.length) {
-  //       setPermissions('shared');
-  //       setCollaborators(response);
-  //     }
-  //   };
-  //   fetchCollaborators();
-  // }, [workspaceId]);
+  useEffect(() => {
+    if (!workspaceId) return;
+    const fetchCollaborators = async () => {
+      const response = await getCollaborators(workspaceId);
+      if (response.length) {
+        setPermissions("shared");
+        setCollaborators(response);
+      }
+    };
+    fetchCollaborators();
+  }, [workspaceId]);
 
   return (
     <div className="flex gap-4 flex-col">
@@ -353,7 +374,7 @@ export default function SettingsForm({}: SettingsFormProps) {
             Delete Workspace
           </Button>
         </Alert>
-        {/* <p className="flex items-center gap-2 mt-6">
+        <p className="flex items-center gap-2 mt-6">
           <UserIcon size={20} /> Profile
         </p>
         <Separator />
@@ -361,7 +382,7 @@ export default function SettingsForm({}: SettingsFormProps) {
           <Avatar>
             <AvatarImage src={""} />
             <AvatarFallback>
-              <CypressProfileIcon />
+              <SpectraProfileIcon />
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col ml-6">
@@ -383,19 +404,19 @@ export default function SettingsForm({}: SettingsFormProps) {
               disabled={uploadingProfilePic}
             />
           </div>
-        </div> */}
-        {/* <LogoutButton>
+        </div>
+        <LogoutButton>
           <div className="flex items-center">
             <LogOut />
           </div>
         </LogoutButton>
-        <p className="flex items-center gap-2 mt-6">
+        {/* <p className="flex items-center gap-2 mt-6">
           <CreditCard size={20} /> Billing & Plan
-        </p>
+        </p> */}
         <Separator />
         <p className="text-muted-foreground">
-          You are currently on a{' '}
-          {subscription?.status === 'active' ? 'Pro' : 'Free'} Plan
+          You are currently on a{" "}
+          {subscription?.status === "active" ? "Pro" : "Free"} Plan
         </p>
         <Link
           href="/"
@@ -404,15 +425,16 @@ export default function SettingsForm({}: SettingsFormProps) {
         >
           View Plans <ExternalLink size={16} />
         </Link>
-        {subscription?.status === 'active' ? (
+        {subscription?.status === "active" ? (
           <div>
             <Button
               type="button"
               size="sm"
-              variant={'secondary'}
+              variant={"secondary"}
               disabled={loadingPortal}
               className="text-sm"
-              onClick={redirectToCustomerPortal}
+              // onClick={redirectToCustomerPortal}
+              onClick={() => {}}
             >
               Manage Subscription
             </Button>
@@ -422,16 +444,17 @@ export default function SettingsForm({}: SettingsFormProps) {
             <Button
               type="button"
               size="sm"
-              variant={'secondary'}
+              variant={"secondary"}
               className="text-sm"
-              onClick={() => setOpen(true)}
+              // onClick={() => setOpen(true)}
+              onClick={() => {}}
             >
               Start Plan
             </Button>
           </div>
-        )} */}
+        )}
       </>
-      {/* <AlertDialog open={openAlertMessage}>
+      <AlertDialog open={openAlertMessage}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
@@ -449,7 +472,7 @@ export default function SettingsForm({}: SettingsFormProps) {
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
-      </AlertDialog> */}
+      </AlertDialog>
     </div>
   );
 }
