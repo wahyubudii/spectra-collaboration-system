@@ -510,7 +510,7 @@ export default function QuillEditor({
 
   return (
     <>
-      {isConnected ? "Connected" : "Not Connected"}
+      {/* {isConnected ? "Connected" : "Not Connected"} */}
       <div className="relative">
         {details.inTrash && (
           <article className="py-2 z-40 bg-[#EB5757] flex  md:flex-row flex-col justify-center items-center gap-4 flex-wrap">
@@ -597,7 +597,8 @@ export default function QuillEditor({
         </div>
       )}
       <div className="flex justify-center items-center flex-col mt-2 relative">
-        <div className="w-full self-center max-w-[800px] flex flex-col px-7 lg:my-8">
+        {/* <div className="w-full self-center max-w-[800px] flex flex-col px-7 lg:my-8"> */}
+        <div className="w-full self-center max-w-[1080px] flex flex-col px-7 lg:my-8">
           <div className="text-[80px]">
             <EmojiPicker getValue={iconOnChange}>
               <div className="w-[100px] cursor-pointer transition-colors h-[100px] flex items-center justify-center hover:bg-muted rounded-xl">
@@ -605,11 +606,11 @@ export default function QuillEditor({
               </div>
             </EmojiPicker>
           </div>
-          <div className="flex ">
+          <div className="flex gap-4">
             <BannerUpload
               id={fileId}
               dirType={dirType}
-              className="mt-2 text-sm text-muted-foreground p-2 hover:text-card-foreground transition-all rounded-md"
+              className="mt-2 text-sm text-muted-foreground py-2 hover:text-card-foreground transition-all rounded-md"
             >
               {details.bannerUrl ? "Update Banner" : "Add Banner"}
             </BannerUpload>
@@ -630,11 +631,12 @@ export default function QuillEditor({
           <span className="text-muted-foreground text-3xl font-bold h-9">
             {details.title}
           </span>
-          <span className="text-muted-foreground text-sm">
+          {/* <span className="text-muted-foreground text-sm">
             {dirType.toUpperCase()}
-          </span>
+          </span> */}
         </div>
-        <div id="container" className="max-w-[800px]" ref={wrapperRef}></div>
+        {/* <div id="container" className="max-w-[800px]" ref={wrapperRef}></div> */}
+        <div id="container" ref={wrapperRef}></div>
       </div>
     </>
   );
