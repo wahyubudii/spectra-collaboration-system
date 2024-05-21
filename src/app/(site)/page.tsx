@@ -26,7 +26,7 @@ export default function HomePage() {
           <div className="bg-white p-[2px] mt-6 rounded-xl bg-gradient-to-r from-primary to-brand-primaryBlue sm:w-[300px]">
             <Button
               variant={"btn-secondary"}
-              className="w-full rounded-[10px] p-6 text-2xl bg-background"
+              className="w-full rounded-[10px] p-6 text-2xl font-bold text-white"
             >
               Get Spectra Free
             </Button>
@@ -149,13 +149,13 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-      <section className="mt-20 px-4 sm:px-6">
+      <section className="my-20 pb-20 px-4 sm:px-6">
         <TitleSection
           title="The Perfect Plan For You"
           subheading="Experience all the benefits of our platform. Select a plan that suits your needs and take your productivity to new heights."
           pill="Pricing"
         />
-        <div className="flex flex-col-reverse sm:flex-row gap-4 justify-center sm:items-stretch items-center mt-10 ">
+        <div className="flex flex-col-reverse sm:flex-row gap-4 justify-center sm:items-stretch items-center my-10 ">
           {PRICING_CARDS.map((card) => (
             <CustomCard
               key={card.planType}
@@ -196,7 +196,7 @@ export default function HomePage() {
                   </p>
                   <Button
                     variant={"default"}
-                    className="whitespace-nowrap w-full mt-4"
+                    className="whitespace-nowrap w-full mt-4 text-sm font-semibold"
                   >
                     {card.planType === PRICING_PLANS.proplan
                       ? "Go Pro"
