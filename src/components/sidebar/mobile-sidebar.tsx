@@ -21,12 +21,12 @@ export const nativeNavigations = [
   },
 ] as const;
 
-export const MobileSidebar: React.FC<MobileSidebarProps> = ({ children }) => {
+export const MobileSidebar = ({ children }: MobileSidebarProps) => {
   const [selectedNav, setSelectedNav] = useState("");
   return (
     <>
       {selectedNav === "sidebar" && <>{children}</>}
-      <nav className="bg-black/10 backdrop-blur-lg sm:hidden  fixed  z-50  bottom-0  right-0  left-0">
+      <nav className="bg-black/10 backdrop-blur-lg sm:hidden fixed z-50 bottom-0 right-0 left-0">
         <ul className="flex justify-between items-center p-4">
           {nativeNavigations.map((item) => (
             <li
